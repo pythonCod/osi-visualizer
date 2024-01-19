@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.1)
 add_subdirectory(open-simulation-interface)
+
 file(COPY resources DESTINATION .)
 project(osi-visualizer)
-
 set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -11,17 +11,18 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC OFF)
 
 find_package(Qt5 COMPONENTS Core Gui OpenGL Widgets Xml Network REQUIRED)
+find_package(fmi_library COMPONENTS Core Gui OpenGL Widgets Xml Network REQUIRED)
 
 find_path(
   FMILIB_INCLUDE_DIRS
   fmilib.h
-  HINTS /usr/include/fmi-library /usr/include /usr/local/include/fmi-library /usr/local/include
+  HINTS ${fmi_library_INCLUDE_DIR}
 )
 
 find_library(
   FMILIB_LIBRARY
   fmilib_shared
-  HINTS /usr/lib/fmi-library /usr/lib /usr/local/lib/fmi-library /usr/local/lib
+  HINTS ${fmi_library_LIBRARIES}
 )
 
 # Unfortunately CMAKE_AUTORCC does not automatically rebuild the qrc file if one
