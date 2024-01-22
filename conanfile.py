@@ -1,3 +1,6 @@
+#conan create .. --build=osi_vizualiser/0.1 --options=qt/5.15.12:shared=True
+
+
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout
 from conan.tools.scm import Git
@@ -10,7 +13,7 @@ class OSIVizualiserRecipe(ConanFile):
 
     # Optional metadata
     license = ""
-    author = "Ahmed Attia a.e.gamal@gmail.com"
+    author = "Ahmed Attia"
     url = ""
     description = "<Description of hello package here>"
     topics = ("OSI")
@@ -18,10 +21,11 @@ class OSIVizualiserRecipe(ConanFile):
     # Binary configuration
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = {"shared": False, "fPIC": True}
+    default_options = {"shared": True, "fPIC": True}
 
     generators = "CMakeDeps"
     exports_sources = "CMakeLists.txt", "src/*", "include/*", "open-simulation-interface/*", "resources/*"
+    
     def validate(self):
         check_min_cppstd(self, "11")
         check_max_cppstd(self, "20")
@@ -36,6 +40,7 @@ class OSIVizualiserRecipe(ConanFile):
     def requirements(self):
         self.requires("protobuf/3.17.1")
         self.requires("qt/5.15.12")
+        self.requires("cppzmq/4.10.0")
         self.requires("fmi_library/2.4.1")
 
     def config_options(self):
